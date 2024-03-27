@@ -15,7 +15,7 @@ export default function Page() {
 
   // onclick login navigate to dashboard
   const handleLogin = async () => {
-    router.push("/dashboard");
+    router.push("/dashboard", { scroll: false });
   };
 
   return (

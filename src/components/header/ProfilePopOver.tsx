@@ -32,10 +32,17 @@ export default function ProfilePopOver({
       <p>{email}</p>
       <p>{name}</p>
       {/* text button to profile */}
-      <Button type="link" onClick={() => router.push("/profile")}>
+      <Button
+        type="link"
+        onClick={() => router.push("/profile", { scroll: false })}
+      >
         Your Profile
       </Button>
-      <Button type="primary" danger onClick={() => router.push("/auth")}>
+      <Button
+        type="primary"
+        danger
+        onClick={() => router.push("/auth", { scroll: false })}
+      >
         Logout
       </Button>
     </div>

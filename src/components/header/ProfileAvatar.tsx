@@ -25,7 +25,10 @@ export default function ProfileAvatar({
         <Popover
           content={<Notifications />}
           title={
-            <Button type="link" onClick={() => router.push("/notifications")}>
+            <Button
+              type="link"
+              onClick={() => router.push("/notifications", { scroll: false })}
+            >
               View All Notifications
             </Button>
           }
@@ -34,7 +37,7 @@ export default function ProfileAvatar({
             <Avatar
               size="small"
               icon={<BellOutlined />}
-              onClick={() => router.push("/notifications")}
+              onClick={() => router.push("/notifications", { scroll: false })}
               className="cursor-pointer"
             />
           </Badge>
@@ -44,7 +47,7 @@ export default function ProfileAvatar({
           <Avatar
             size="small"
             icon={<BellOutlined />}
-            onClick={() => router.push("/notifications")}
+            onClick={() => router.push("/notifications", { scroll: false })}
             className="cursor-pointer"
           />
         </Badge>

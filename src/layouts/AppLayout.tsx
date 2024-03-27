@@ -60,7 +60,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, activeMenu }) => {
               justifyContent: "center",
               padding: "16px",
             }}
-            onClick={() => router.push("/")}
+            onClick={() => router.push("/", { scroll: false })}
           >
             <Image
               src="/images/logo.png" // Route of the image file
@@ -81,7 +81,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, activeMenu }) => {
                 icon: <FcBarChart />,
                 label: "Dashboard",
                 onClick: () => {
-                  router.push("/dashboard");
+                  router.push("/dashboard", { scroll: false });
                 },
               },
               {
@@ -89,7 +89,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, activeMenu }) => {
                 icon: <FcMoneyTransfer />,
                 label: "Transactions",
                 onClick: () => {
-                  router.push("/transactions");
+                  router.push("/transactions", { scroll: false });
                 },
               },
               {
@@ -97,7 +97,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, activeMenu }) => {
                 icon: <FcBriefcase />,
                 label: "Portfolio",
                 onClick: () => {
-                  router.push("/portfolio");
+                  router.push("/portfolio", { scroll: false });
                 },
               },
               {
@@ -105,7 +105,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, activeMenu }) => {
                 icon: <FcCurrencyExchange />,
                 label: "Cryptocurrencies",
                 onClick: () => {
-                  router.push("/cryptocurrencies");
+                  router.push("/cryptocurrencies", { scroll: false });
                 },
               },
               {
@@ -113,7 +113,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, activeMenu }) => {
                 icon: <FcSettings />,
                 label: "Settings",
                 onClick: () => {
-                  router.push("/settings");
+                  router.push("/settings", { scroll: false });
                 },
               },
             ]}
@@ -144,7 +144,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, activeMenu }) => {
           <Breadcrumb style={{ margin: "16px", cursor: "pointer" }}>
             <Breadcrumb.Item
               onClick={() => {
-                router.push("/");
+                router.push("/", { scroll: false });
               }}
             >
               Home
