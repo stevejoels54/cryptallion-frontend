@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import React, { useState, memo } from "react";
 import { FcBarChart } from "react-icons/fc";
 import { FcMoneyTransfer } from "react-icons/fc";
 import { FcBriefcase } from "react-icons/fc";
@@ -68,6 +67,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, activeMenu }) => {
               width={100} // Desired size with correct aspect ratio
               alt="Cryptallion Logo"
               style={{ cursor: "pointer" }}
+              priority
             />
           </div>
           <Menu
@@ -158,6 +158,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, activeMenu }) => {
               minHeight: 280,
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
+              overflow: "auto",
             }}
           >
             {children}
@@ -173,4 +174,4 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, activeMenu }) => {
   );
 };
 
-export default AppLayout;
+export default memo(AppLayout);

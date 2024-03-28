@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { memo, useEffect, useState } from "react";
 import { UserOutlined, BellOutlined } from "@ant-design/icons";
 import { Avatar, Popover, Badge, Space, Button } from "antd";
 import ProfilePopOver from "./ProfilePopOver";
@@ -9,16 +11,36 @@ type ProfileAvatarProps = {
   notifications?: number;
   profile?: string;
   email?: string;
-  name?: string;
 };
 
-export default function ProfileAvatar({
+function ProfileAvatar({
   notifications = 0,
   profile = "Profile",
   email = "Email",
-  name = "Name",
 }: ProfileAvatarProps) {
   const router = useRouter();
+  const [emailFromLocalStorage, setEmailFromLocalStorage] = useState("");
+  const [avatar, setAvatar] = useState("");
+
+  useEffect(() => {
+    const userFromStorage = localStorage.getItem("user");
+    let email = "";
+    let avatar = "";
+
+    if (userFromStorage) {
+      email = JSON.parse(userFromStorage).email;
+      avatar = JSON.parse(userFromStorage).avatar;
+    }
+
+    if (email) {
+      setEmailFromLocalStorage(email);
+    }
+
+    if (avatar) {
+      setAvatar(avatar);
+    }
+  }, []);
+
   return (
     <Space size={24}>
       {notifications > 0 ? (
@@ -53,7 +75,12 @@ export default function ProfileAvatar({
         </Badge>
       )}
       <Popover
-        content={<ProfilePopOver avatar={profile} email={email} name={name} />}
+        content={
+          <ProfilePopOver
+            avatar={avatar || profile}
+            email={emailFromLocalStorage || email}
+          />
+        }
       >
         <Avatar
           size="large"
@@ -65,3 +92,5 @@ export default function ProfileAvatar({
     </Space>
   );
 }
+
+export default memo(ProfileAvatar);

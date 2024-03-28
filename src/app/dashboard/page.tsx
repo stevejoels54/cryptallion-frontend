@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
-import { Typography } from "antd";
+import React, { memo, useState, useEffect, use } from "react";
+import { Typography, notification } from "antd";
 
 const { Title } = Typography;
 
-export default function Page() {
+function Page() {
   return (
     <div>
       <Title level={1}>Dashboard</Title>
@@ -13,3 +13,5 @@ export default function Page() {
     </div>
   );
 }
+
+export default memo(Page);

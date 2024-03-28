@@ -1,21 +1,120 @@
 // demo auth component
 "use client";
 
-import React from "react";
-import { Button, Card, Tabs, Form, Input, Checkbox, Typography } from "antd";
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Card,
+  Tabs,
+  Form,
+  Input,
+  Checkbox,
+  Typography,
+  Alert,
+  notification,
+} from "antd";
 import { useRouter } from "next/navigation";
-// import { useAuth } from "@/hooks/useAuth";
+import axios from "axios";
 
 const { Title, Text } = Typography;
 
 export default function Page() {
-  //   const { login, logout, user } = useAuth();
+  const [registerForm] = Form.useForm();
+  const [loginForm] = Form.useForm();
+
+  const [activeTab, setActiveTab] = useState("login");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const router = useRouter();
 
   // onclick login navigate to dashboard
   const handleLogin = async () => {
     router.push("/dashboard", { scroll: false });
+  };
+
+  type User = {
+    email: string;
+    username?: string;
+    password: string;
+    notifications?: number;
+  };
+
+  const onFinishlogin = (values: User) => {
+    const { email, password } = values;
+
+    const baseUrl = "http://localhost:5000/api/v1/auth";
+    const url = `${baseUrl}/login`;
+    const data = { email, password };
+
+    const login = async (data: { email: string; password: string }) => {
+      try {
+        setLoading(true);
+        setError("");
+        const response = await axios.post(url, data);
+        if (response.status === 200) {
+          setLoading(false);
+          // store the token in local storage and the user
+          localStorage.setItem("token", response.data.authToken);
+          localStorage.setItem("user", JSON.stringify(response.data.user));
+          notification.success({
+            message: "Successfully logged in!",
+            description: "You will be redirected to the dashboard.",
+          });
+          loginForm.resetFields();
+          handleLogin();
+        } else {
+          setError("An error occurred.");
+          setLoading(false);
+        }
+      } catch (error: any) {
+        setError(error.response.data.error);
+        notification.error({
+          message: "An error occurred",
+          description: error.response.data.error,
+        });
+        setLoading(false);
+      }
+    };
+
+    login(data);
+  };
+
+  const onFinishregister = (values: User) => {
+    const { email, password } = values;
+
+    const baseUrl = "http://localhost:5000/api/v1/auth";
+    const url = `${baseUrl}/register`;
+    const data = { email, password };
+
+    const register = async (data: { email: string; password: string }) => {
+      try {
+        setLoading(true);
+        setError("");
+        const response = await axios.post(url, data);
+        if (response.status === 201) {
+          setLoading(false);
+          notification.success({
+            message: "Successfully registered!",
+            description: "You can now login.",
+          });
+          registerForm.resetFields();
+          setActiveTab("login");
+        } else {
+          setError("An error occurred.");
+          setLoading(false);
+        }
+      } catch (error: any) {
+        setError(error.response.data.error);
+        notification.error({
+          message: "An error occurred",
+          description: error.response.data.error,
+        });
+        setLoading(false);
+      }
+    };
+
+    register(data);
   };
 
   return (
@@ -25,7 +124,6 @@ export default function Page() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        // height: "100vh",
         height: "100%",
       }}
     >
@@ -38,20 +136,33 @@ export default function Page() {
         </Text>
       </Card>
       <Card style={{ width: "100%" }}>
-        <Tabs defaultActiveKey="login">
+        {error && (
+          <Alert
+            message={error}
+            type="error"
+            showIcon
+            closable
+            style={{ marginBottom: "1rem" }}
+          />
+        )}
+        <Tabs
+          defaultActiveKey="login"
+          activeKey={activeTab}
+          onChange={setActiveTab}
+        >
           <Tabs.TabPane tab="Login" key="login">
             <Form
               name="login"
               initialValues={{ remember: true }}
               layout="vertical"
-              // onFinish={onFinish}
-              // onFinishFailed={onFinishFailed}
+              onFinish={onFinishlogin}
+              form={loginForm}
             >
               <Form.Item
-                name="username"
-                label="Username"
+                name="email"
+                label="Email"
                 rules={[
-                  { required: true, message: "Please input your username!" },
+                  { required: true, message: "Please input your email!" },
                 ]}
               >
                 <Input placeholder="Username" />
@@ -72,7 +183,7 @@ export default function Page() {
                   <Checkbox>Remember me</Checkbox>
                 </Form.Item>
               </Form.Item>
-              <Button type="primary" block onClick={handleLogin}>
+              <Button type="primary" block htmlType="submit" loading={loading}>
                 Login
               </Button>
             </Form>
@@ -82,19 +193,9 @@ export default function Page() {
               name="register"
               initialValues={{ remember: true }}
               layout="vertical"
-              // onFinish={onFinish}
-              // onFinishFailed={onFinishFailed}
+              onFinish={onFinishregister}
+              form={registerForm}
             >
-              {/* <Form.Item
-                name="username"
-                label="Username"
-                rules={[
-                  { required: true, message: "Please input your username!" },
-                ]}
-              >
-                <Input placeholder="Username" />
-              </Form.Item> */}
-
               <Form.Item
                 name="email"
                 label="Email"
@@ -120,7 +221,7 @@ export default function Page() {
                   <Checkbox>Remember me</Checkbox>
                 </Form.Item>
               </Form.Item>
-              <Button type="primary" block>
+              <Button type="primary" block htmlType="submit" loading={loading}>
                 Register
               </Button>
             </Form>
