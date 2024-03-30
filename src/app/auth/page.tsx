@@ -1,7 +1,7 @@
 // demo auth component
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -23,8 +23,10 @@ export default function Page() {
   const [loginForm] = Form.useForm();
 
   const [activeTab, setActiveTab] = useState("login");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [loginError, setLoginError] = useState("");
+  const [registerLoading, setRegisterLoading] = useState(false);
+  const [registerError, setRegisterError] = useState("");
 
   const router = useRouter();
 
@@ -49,11 +51,11 @@ export default function Page() {
 
     const login = async (data: { email: string; password: string }) => {
       try {
-        setLoading(true);
-        setError("");
+        setLoginLoading(true);
+        setLoginError("");
         const response = await axios.post(url, data);
         if (response.status === 200) {
-          setLoading(false);
+          setLoginLoading(false);
           // store the token in local storage and the user
           localStorage.setItem("token", response.data.authToken);
           localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -64,16 +66,21 @@ export default function Page() {
           loginForm.resetFields();
           handleLogin();
         } else {
-          setError("An error occurred.");
-          setLoading(false);
+          setLoginError("An error occurred.");
+          setLoginLoading(false);
         }
       } catch (error: any) {
-        setError(error.response.data.error);
+        setLoginError(
+          error.response?.data?.error || error.message || "An error occurred."
+        );
         notification.error({
           message: "An error occurred",
-          description: error.response.data.error,
+          description:
+            error.response?.data?.error ||
+            error.message ||
+            "An error occurred.",
         });
-        setLoading(false);
+        setLoginLoading(false);
       }
     };
 
@@ -89,11 +96,11 @@ export default function Page() {
 
     const register = async (data: { email: string; password: string }) => {
       try {
-        setLoading(true);
-        setError("");
+        setRegisterLoading(true);
+        setRegisterError("");
         const response = await axios.post(url, data);
         if (response.status === 201) {
-          setLoading(false);
+          setRegisterLoading(false);
           notification.success({
             message: "Successfully registered!",
             description: "You can now login.",
@@ -101,16 +108,21 @@ export default function Page() {
           registerForm.resetFields();
           setActiveTab("login");
         } else {
-          setError("An error occurred.");
-          setLoading(false);
+          setRegisterError("An error occurred.");
+          setRegisterLoading(false);
         }
       } catch (error: any) {
-        setError(error.response.data.error);
+        setRegisterError(
+          error.response?.data?.error || error.message || "An error occurred."
+        );
         notification.error({
           message: "An error occurred",
-          description: error.response.data.error,
+          description:
+            error.response?.data?.error ||
+            error.message ||
+            "An error occurred.",
         });
-        setLoading(false);
+        setRegisterLoading(false);
       }
     };
 
@@ -136,9 +148,18 @@ export default function Page() {
         </Text>
       </Card>
       <Card style={{ width: "100%" }}>
-        {error && (
+        {activeTab === "register" && registerError && (
           <Alert
-            message={error}
+            message={registerError}
+            type="error"
+            showIcon
+            closable
+            style={{ marginBottom: "1rem" }}
+          />
+        )}
+        {activeTab === "login" && loginError && (
+          <Alert
+            message={loginError}
             type="error"
             showIcon
             closable
@@ -183,7 +204,12 @@ export default function Page() {
                   <Checkbox>Remember me</Checkbox>
                 </Form.Item>
               </Form.Item>
-              <Button type="primary" block htmlType="submit" loading={loading}>
+              <Button
+                type="primary"
+                block
+                htmlType="submit"
+                loading={loginLoading}
+              >
                 Login
               </Button>
             </Form>
@@ -221,7 +247,12 @@ export default function Page() {
                   <Checkbox>Remember me</Checkbox>
                 </Form.Item>
               </Form.Item>
-              <Button type="primary" block htmlType="submit" loading={loading}>
+              <Button
+                type="primary"
+                block
+                htmlType="submit"
+                loading={registerLoading}
+              >
                 Register
               </Button>
             </Form>

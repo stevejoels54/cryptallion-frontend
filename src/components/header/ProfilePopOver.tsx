@@ -44,15 +44,17 @@ export default function ProfilePopOver({
         setLoading(false);
       }
     } catch (error: any) {
-      //   console.error("Error during logout:", error);
-      // Optionally, display a generic error message to the user
-      setError(error.response.data.error);
+      setError(
+        error.response?.data?.error || error.message || "An error occurred."
+      );
       notification.error({
         message: "An error occurred",
-        description: error.response.data.error,
+        description:
+          error.response?.data?.error || error.message || "An error occurred.",
       });
       setLoading(false);
     }
+    setLoading(false);
   };
 
   return (
