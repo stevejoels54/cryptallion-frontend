@@ -161,6 +161,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, activeMenu }) => {
               overflow: "auto",
             }}
           >
+            {/* centered div with activeMenu title */}
+            <Title level={2} style={{ textAlign: "center" }}>
+              {formatPathname(pathname)}
+            </Title>
             {children}
           </Content>
           {/* <Footer style={{ textAlign: "center" }}>
