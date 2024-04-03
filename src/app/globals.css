@@ -71,4 +71,36 @@ body {
   .auth-form {
     width: 100%; /* Occupy full width */
   }
+
+  .table-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .table-title-button {
+    width: 100%;
+  }
+
+  .sidebar {
+    display: none;
+  }
+}
+
+.table-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.table-title-button {
+  width: 20%;
+}
+
+.sidebar {
+  display: block;
+  max-height: 100%;
 }
