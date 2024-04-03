@@ -45,7 +45,7 @@ export default function Page() {
   const onFinishlogin = (values: User) => {
     const { email, password } = values;
 
-    const baseUrl = "http://localhost:5000/api/v1/auth";
+    const baseUrl = "https://cryptallion-backend-alx.vercel.app/api/v1/auth";
     const url = `${baseUrl}/login`;
     const data = { email, password };
 
@@ -90,7 +90,7 @@ export default function Page() {
   const onFinishregister = (values: User) => {
     const { email, password } = values;
 
-    const baseUrl = "http://localhost:5000/api/v1/auth";
+    const baseUrl = "https://cryptallion-backend-alx.vercel.app/api/v1/auth";
     const url = `${baseUrl}/register`;
     const data = { email, password };
 
