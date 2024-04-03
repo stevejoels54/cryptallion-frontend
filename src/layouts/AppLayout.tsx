@@ -89,14 +89,14 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children, activeMenu }) => {
         router.push("/transactions", { scroll: false });
       },
     },
-    {
-      key: "3",
-      icon: <FcBriefcase />,
-      label: "Portfolio",
-      onClick: () => {
-        router.push("/portfolio", { scroll: false });
-      },
-    },
+    // {
+    //   key: "3",
+    //   icon: <FcBriefcase />,
+    //   label: "Portfolio",
+    //   onClick: () => {
+    //     router.push("/portfolio", { scroll: false });
+    //   },
+    // },
     {
       key: "4",
       icon: <FcCurrencyExchange />,
