@@ -19,7 +19,7 @@ export default function ProfilePopOver({
   const [error, setError] = useState("");
 
   const logout = async () => {
-    const url = "http://localhost:5000/api/v1/auth/logout";
+    const url = "https://cryptallion-backend-alx.vercel.app/api/v1/auth/logout";
     try {
       const token = localStorage.getItem("token");
 
