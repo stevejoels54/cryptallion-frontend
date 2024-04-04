@@ -32,7 +32,14 @@ export default function Page() {
     atl: number | null;
     atl_change_percentage: number | null;
     atl_date: string | null;
-    roi: number | object | null;
+    roi:
+      | number
+      | {
+          times: number;
+          currency: string;
+          percentage: number;
+        }
+      | null;
     last_updated: string;
   };
 
@@ -82,17 +89,20 @@ export default function Page() {
             >
               <Image src={coin.image} alt={coin.name} />
               <p>Symbol: {coin.symbol.toUpperCase()}</p>
-              <p>Price: ${coin.current_price}</p>
-              <p>Market Cap: $ {coin.market_cap.toLocaleString() || 0}</p>
+              <p>Price: $ {coin.current_price}</p>
+              <p>Market Cap: $ {coin.market_cap?.toLocaleString() || 0}</p>
               <p>Market Cap Rank: {coin.market_cap_rank}</p>
-              <p>Total Volume: ${coin.total_volume}</p>
-              <p>High 24h: ${coin.high_24h}</p>
-              <p>Low 24h: ${coin.low_24h}</p>
-              <p>Price Change 24h: ${coin.price_change_24h}</p>
+              <p>Total Volume: $ {coin.total_volume?.toLocaleString() || 0}</p>
+              <p>High 24h: $ {coin.high_24h?.toLocaleString() || 0}</p>
+              <p>Low 24h: $ {coin.low_24h?.toLocaleString() || 0}</p>
+              <p>Price Change 24h: $ {coin.price_change_24h}</p>
               <p>
                 Price Change Percentage 24h: {coin.price_change_percentage_24h}%
               </p>
-              <p>Market Cap Change 24h: ${coin.market_cap_change_24h}</p>
+              <p>
+                Market Cap Change 24h: ${" "}
+                {coin.market_cap_change_24h?.toLocaleString() || 0}
+              </p>
               <p>
                 Market Cap Change Percentage 24h:{" "}
                 {coin.market_cap_change_percentage_24h}%
@@ -101,21 +111,23 @@ export default function Page() {
                 Circulating Supply:{" "}
                 {coin.circulating_supply?.toLocaleString() || 0}
               </p>
-              <p>Total Supply: {coin.total_supply?.toLocaleString() || 0}</p>
-              <p>Max Supply: {coin.max_supply?.toLocaleString() || 0}</p>
-              <p>ATH: ${coin.ath}</p>
+              <p>Total Supply: $ {coin.total_supply?.toLocaleString() || 0}</p>
+              <p>Max Supply: $ {coin.max_supply?.toLocaleString() || 0}</p>
+              <p>ATH: $ {coin.ath?.toLocaleString() || 0}</p>
               <p>ATH Change Percentage: {coin.ath_change_percentage}%</p>
               <p>ATH Date: {dayjs(coin.ath_date).format("DD/MM/YYYY")}</p>
-              <p>ATL: ${coin.atl}</p>
+              <p>ATL: $ {coin.atl?.toLocaleString() || 0}</p>
               <p>ATL Change Percentage: {coin.atl_change_percentage}%</p>
               <p>ATL Date: {dayjs(coin.atl_date).format("DD/MM/YYYY")}</p>
               <p>
                 ROI:
                 {coin.roi
                   ? typeof coin.roi === "number"
-                    ? `${coin.roi.toFixed(2)}%`
-                    : JSON.stringify(coin.roi)
-                  : "N/A"}
+                    ? ` ${coin.roi.toFixed(2)}%`
+                    : ` ${coin.roi.times.toFixed(4)} x ${
+                        coin.roi.currency
+                      } (${coin.roi.percentage.toFixed(2)}%)`
+                  : " N/A"}
               </p>
               <p>
                 Last Updated: {dayjs(coin.last_updated).format("DD/MM/YYYY")}
