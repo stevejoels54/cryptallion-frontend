@@ -89,18 +89,18 @@ export default function Page() {
             >
               <Image src={coin.image} alt={coin.name} />
               <p>Symbol: {coin.symbol.toUpperCase()}</p>
-              <p>Price: $ {coin.current_price}</p>
-              <p>Market Cap: $ {coin.market_cap?.toLocaleString() || 0}</p>
+              <p>Price: ${coin.current_price}</p>
+              <p>Market Cap: ${coin.market_cap?.toLocaleString() || 0}</p>
               <p>Market Cap Rank: {coin.market_cap_rank}</p>
-              <p>Total Volume: $ {coin.total_volume?.toLocaleString() || 0}</p>
-              <p>High 24h: $ {coin.high_24h?.toLocaleString() || 0}</p>
-              <p>Low 24h: $ {coin.low_24h?.toLocaleString() || 0}</p>
-              <p>Price Change 24h: $ {coin.price_change_24h}</p>
+              <p>Total Volume: ${coin.total_volume?.toLocaleString() || 0}</p>
+              <p>High 24h: ${coin.high_24h?.toLocaleString() || 0}</p>
+              <p>Low 24h: ${coin.low_24h?.toLocaleString() || 0}</p>
+              <p>Price Change 24h: ${coin.price_change_24h}</p>
               <p>
                 Price Change Percentage 24h: {coin.price_change_percentage_24h}%
               </p>
               <p>
-                Market Cap Change 24h: ${" "}
+                Market Cap Change 24h: $
                 {coin.market_cap_change_24h?.toLocaleString() || 0}
               </p>
               <p>
@@ -111,12 +111,12 @@ export default function Page() {
                 Circulating Supply:{" "}
                 {coin.circulating_supply?.toLocaleString() || 0}
               </p>
-              <p>Total Supply: $ {coin.total_supply?.toLocaleString() || 0}</p>
-              <p>Max Supply: $ {coin.max_supply?.toLocaleString() || 0}</p>
-              <p>ATH: $ {coin.ath?.toLocaleString() || 0}</p>
+              <p>Total Supply: ${coin.total_supply?.toLocaleString() || 0}</p>
+              <p>Max Supply: ${coin.max_supply?.toLocaleString() || 0}</p>
+              <p>ATH: ${coin.ath?.toLocaleString() || 0}</p>
               <p>ATH Change Percentage: {coin.ath_change_percentage}%</p>
               <p>ATH Date: {dayjs(coin.ath_date).format("DD/MM/YYYY")}</p>
-              <p>ATL: $ {coin.atl?.toLocaleString() || 0}</p>
+              <p>ATL: ${coin.atl?.toLocaleString() || 0}</p>
               <p>ATL Change Percentage: {coin.atl_change_percentage}%</p>
               <p>ATL Date: {dayjs(coin.atl_date).format("DD/MM/YYYY")}</p>
               <p>
